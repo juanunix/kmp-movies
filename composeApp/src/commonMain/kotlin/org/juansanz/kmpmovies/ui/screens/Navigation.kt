@@ -10,10 +10,10 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
-import io.ktor.http.ContentType.Application.Json
 import io.ktor.serialization.kotlinx.json.json
 import kmp_movies.composeapp.generated.resources.Res
 import kmp_movies.composeapp.generated.resources.api_key
+import kotlinx.serialization.json.Json
 import org.jetbrains.compose.resources.stringResource
 import org.juansanz.kmpmovies.data.MoviesService
 import org.juansanz.kmpmovies.data.movies
