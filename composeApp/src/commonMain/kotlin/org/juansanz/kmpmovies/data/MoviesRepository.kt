@@ -2,12 +2,19 @@ package org.juansanz.kmpmovies.data
 
 import kotlinx.coroutines.flow.onEach
 import org.juansanz.kmpmovies.data.database.MoviesDao
+import org.juansanz.kmpmovies.data.remote.MoviesService
+import org.juansanz.kmpmovies.data.remote.RemoteMovie
 
-class MoviesRepository(private val moviesService: MoviesService, private val moviesDao: MoviesDao) {
+class MoviesRepository(
+    private val moviesService: MoviesService,
+    private val moviesDao: MoviesDao,
+    private val regionRepository: RegionRepository,
+) {
 
     val movies = moviesDao.fetchPopularMovies().onEach { movies ->
         if (movies.isEmpty()) {
-            val remoteMovies = moviesService.fetchPopularMovies().results.map { it.toDomainMovie() }
+            val remoteMovies = moviesService.fetchPopularMovies(regionRepository.fetchRegion())
+                .results.map { it.toDomainMovie() }
             moviesDao.save(remoteMovies)
         }
     }

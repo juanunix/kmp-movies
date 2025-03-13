@@ -8,8 +8,13 @@ import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.http.URLProtocol
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
+import org.juansanz.kmpmovies.data.MoviesRepository
+import org.juansanz.kmpmovies.data.RegionRepository
 import org.juansanz.kmpmovies.data.database.MoviesDao
 import org.juansanz.kmpmovies.data.database.MoviesDatabase
+import org.juansanz.kmpmovies.data.remote.MoviesService
+import org.juansanz.kmpmovies.ui.screens.details.DetailViewModel
+import org.juansanz.kmpmovies.ui.screens.home.HomeViewModel
 import org.koin.compose.viewmodel.dsl.viewModelOf
 import org.koin.core.context.startKoin
 import org.koin.core.module.Module
@@ -17,10 +22,6 @@ import org.koin.core.module.dsl.factoryOf
 import org.koin.core.qualifier.named
 import org.koin.dsl.KoinAppDeclaration
 import org.koin.dsl.module
-import org.juansanz.kmpmovies.ui.screens.home.HomeViewModel
-import org.juansanz.kmpmovies.ui.screens.details.DetailViewModel
-import org.juansanz.kmpmovies.data.MoviesRepository
-import org.juansanz.kmpmovies.data.MoviesService
 
 val appModule = module {
     single(named("apiKey")) { BuildConfig.API_KEY }
@@ -31,8 +32,19 @@ val appModule = module {
 }
 
 val dataModule = module {
-    single {
-        HttpClient {
+    /*get(named("apiKey"))*/
+    factory {
+        HttpClientFactory(get(named("apiKey"))).build()
+    }
+
+    factoryOf(::MoviesRepository)
+    factoryOf(::RegionRepository)
+    factoryOf(::MoviesService)
+}
+
+class HttpClientFactory(private val apiKey: String) {
+    fun build(): HttpClient {
+        return HttpClient() {
             install(ContentNegotiation) {
                 json(Json {
                     ignoreUnknownKeys = true
@@ -42,15 +54,14 @@ val dataModule = module {
                 url {
                     protocol = URLProtocol.HTTPS
                     host = "api.themoviedb.org"
-                    parameters.append("api_key", get(named("apiKey")))
+                    parameters.append("api_key", apiKey)
                 }
             }
+
         }
     }
-
-    factoryOf(::MoviesRepository)
-    factoryOf(::MoviesService)
 }
+
 
 val viewModelsModule = module {
     viewModelOf(::HomeViewModel)

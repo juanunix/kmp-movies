@@ -1,4 +1,4 @@
-package org.juansanz.kmpmovies.data
+package org.juansanz.kmpmovies.data.remote
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

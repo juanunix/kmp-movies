@@ -90,6 +90,7 @@ kotlin {
             implementation(libs.androidx.room.runtime)
             implementation(libs.androidx.sqlite.bundled)
             implementation(project.dependencies.platform(libs.koin.bom))
+            implementation ("io.ktor:ktor-client-logging:3.1.0")
             implementation(libs.koin.core)
             implementation(libs.koin.compose)
             implementation(libs.koin.compose.viewmodel)
