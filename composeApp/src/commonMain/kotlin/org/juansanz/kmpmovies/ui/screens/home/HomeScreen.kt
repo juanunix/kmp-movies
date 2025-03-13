@@ -26,19 +26,17 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import coil3.compose.AsyncImage
-import org.juansanz.kmpmovies.data.Movie
-import kmp_movies.composeapp.generated.resources.Res
-import kmp_movies.composeapp.generated.resources.app_name
 import org.jetbrains.compose.resources.stringResource
+import org.juansanz.kmpmovies.data.Movie
 import org.juansanz.kmpmovies.ui.screens.Screen
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     onMovieClick: (Movie) -> Unit,
-    vm: HomeViewModel = viewModel { HomeViewModel() },
+    vm: HomeViewModel,
 ) {
     Screen {
         val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
