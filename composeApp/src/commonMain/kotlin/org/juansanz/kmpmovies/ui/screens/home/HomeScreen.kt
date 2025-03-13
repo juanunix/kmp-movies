@@ -23,6 +23,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import kmp_movies.composeapp.generated.resources.Res
+import kmp_movies.composeapp.generated.resources.app_name
+
 import org.jetbrains.compose.resources.stringResource
 import org.juansanz.kmpmovies.Movie
 import org.juansanz.kmpmovies.movies
