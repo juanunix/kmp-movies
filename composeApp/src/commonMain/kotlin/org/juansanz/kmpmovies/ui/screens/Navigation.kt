@@ -8,12 +8,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import io.devexpert.kmpmovies.data.MoviesRepository
-import io.devexpert.kmpmovies.data.MoviesService
-import io.devexpert.kmpmovies.ui.screens.detail.DetailScreen
-import io.devexpert.kmpmovies.ui.screens.detail.DetailViewModel
-import io.devexpert.kmpmovies.ui.screens.home.HomeScreen
-import io.devexpert.kmpmovies.ui.screens.home.HomeViewModel
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.DefaultRequest
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
@@ -25,15 +19,16 @@ import kotlinx.serialization.json.Json
 import org.jetbrains.compose.resources.stringResource
 import org.juansanz.kmpmovies.data.MoviesRepository
 import org.juansanz.kmpmovies.data.MoviesService
+import org.juansanz.kmpmovies.data.database.MoviesDao
 import org.juansanz.kmpmovies.ui.screens.details.DetailScreen
 import org.juansanz.kmpmovies.ui.screens.details.DetailViewModel
 import org.juansanz.kmpmovies.ui.screens.home.HomeScreen
 import org.juansanz.kmpmovies.ui.screens.home.HomeViewModel
 
 @Composable
-fun Navigation() {
+fun Navigation(moviesDao: MoviesDao) {
     val navController = rememberNavController()
-    val moviesRepository = rememberMoviesRepository()
+    val moviesRepository = rememberMoviesRepository(moviesDao)
 
     NavHost(navController = navController, startDestination = "home") {
 
@@ -51,14 +46,13 @@ fun Navigation() {
             val movieId = checkNotNull(backStackEntry.arguments?.getInt("movieId"))
             DetailScreen(
                 vm = viewModel { DetailViewModel(movieId, moviesRepository) },
-                onBack = { navController.popBackStack() },
-             )
+                onBack = { navController.popBackStack() })
         }
     }
 }
 
 @Composable
-private fun rememberMoviesRepository(): MoviesRepository {
+private fun rememberMoviesRepository(moviesDao: MoviesDao): MoviesRepository {
     val apiKey = stringResource(Res.string.api_key)
 
     val client = HttpClient {
@@ -70,12 +64,12 @@ private fun rememberMoviesRepository(): MoviesRepository {
         install(DefaultRequest) {
             url {
                 protocol = URLProtocol.HTTPS
-                host = "api.themoviedb.org/3"
+                host = "api.themoviedb.org"
                 parameters.append("api_key", apiKey)
             }
         }
     }
 
-    val moviesRepository = MoviesRepository(MoviesService(client))
+    val moviesRepository = MoviesRepository(MoviesService(client), moviesDao)
     return remember { moviesRepository }
 }

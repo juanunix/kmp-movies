@@ -1,5 +1,6 @@
 package org.juansanz.kmpmovies
 
+import App
 import android.app.Activity
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -11,8 +12,9 @@ import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalView
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.view.WindowCompat
+import org.juansanz.kmpmovies.data.database.getDatabaseBuilder
+import org.juansanz.kmpmovies.data.database.getRoomDatabase
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,7 +22,8 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             EnableTransparentStatusBar()
-            App()
+            val db = getRoomDatabase(getDatabaseBuilder(ctx = LocalView.current.context))
+            App(db.moviesDao())
         }
     }
 }
@@ -37,10 +40,4 @@ private fun EnableTransparentStatusBar() {
                 !darkTheme
         }
     }
-}
-
-@Preview
-@Composable
-fun AppAndroidPreview() {
-    App()
 }

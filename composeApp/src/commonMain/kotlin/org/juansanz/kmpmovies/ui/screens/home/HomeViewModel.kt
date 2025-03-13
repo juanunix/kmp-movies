@@ -9,7 +9,6 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import org.juansanz.kmpmovies.data.Movie
 import org.juansanz.kmpmovies.data.MoviesRepository
-import org.juansanz.kmpmovies.data.RemoteMovie
 
 class HomeViewModel(private val moviesRepository: MoviesRepository) : ViewModel() {
 
@@ -19,10 +18,11 @@ class HomeViewModel(private val moviesRepository: MoviesRepository) : ViewModel(
     init {
         viewModelScope.launch {
             state = UiState(loading = true)
-            state = UiState(
-                loading = false,
-                movies = moviesRepository.fetchPopularMovies().results.map { it.toDomainMovie() }
-            )
+            moviesRepository.movies.collect {
+                if (it.isNotEmpty()) {
+                    state = UiState(loading = false, movies = it)
+                }
+            }
         }
     }
 
@@ -31,9 +31,3 @@ class HomeViewModel(private val moviesRepository: MoviesRepository) : ViewModel(
         val movies: List<Movie> = emptyList(),
     )
 }
-
-private fun RemoteMovie.toDomainMovie(): Movie = Movie(
-    id = id,
-    title = title,
-    poster = "https://image.tmdb.org/t/p/w185/$posterPath"
-)
