@@ -1,4 +1,4 @@
-package org.juansanz.kmpmovies
+package org.juansanz.kmpmovies.data
 
 data class Movie(
     val id: Int,
