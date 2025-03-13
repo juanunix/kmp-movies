@@ -2,6 +2,7 @@ package org.juansanz.kmpmovies.ui.screens.home
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.aspectRatio
@@ -11,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -18,18 +20,17 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
-import kmp_movies.composeapp.generated.resources.Res
-import kmp_movies.composeapp.generated.resources.app_name
 import org.jetbrains.compose.resources.stringResource
 import org.juansanz.kmpmovies.data.Movie
-import org.juansanz.kmpmovies.ui.common.LoadingIndicator
 import org.juansanz.kmpmovies.ui.screens.Screen
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -46,13 +47,19 @@ fun HomeScreen(
                     title = { Text(text = stringResource(Res.string.app_name)) },
                     scrollBehavior = scrollBehavior
                 )
-            }, modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
+            },
+            modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
         ) { padding ->
             val state = vm.state
 
-            LoadingIndicator(
-                enabled = state.loading, modifier = Modifier.fillMaxSize().padding(padding)
-            )
+            if (state.loading) {
+                Box(
+                    modifier = Modifier.fillMaxSize().padding(padding),
+                    contentAlignment = Alignment.Center
+                ) {
+                    CircularProgressIndicator()
+                }
+            }
 
             LazyVerticalGrid(
                 columns = GridCells.Adaptive(120.dp),
@@ -78,7 +85,10 @@ fun MovieItem(movie: Movie, onClick: () -> Unit) {
             model = movie.poster,
             contentDescription = movie.title,
             contentScale = ContentScale.Crop,
-            modifier = Modifier.fillMaxWidth().aspectRatio(2 / 3f).clip(MaterialTheme.shapes.small)
+            modifier = Modifier
+                .fillMaxWidth()
+                .aspectRatio(2 / 3f)
+                .clip(MaterialTheme.shapes.small)
         )
         Text(
             text = movie.title,
