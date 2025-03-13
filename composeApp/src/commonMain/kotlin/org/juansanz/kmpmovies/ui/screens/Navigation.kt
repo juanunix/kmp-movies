@@ -8,13 +8,17 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+
 import io.ktor.client.HttpClient
+import io.ktor.client.plugins.DefaultRequest
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.http.URLProtocol
 import io.ktor.serialization.kotlinx.json.json
 import kmp_movies.composeapp.generated.resources.Res
 import kmp_movies.composeapp.generated.resources.api_key
 import kotlinx.serialization.json.Json
 import org.jetbrains.compose.resources.stringResource
+import org.juansanz.kmpmovies.data.MoviesRepository
 import org.juansanz.kmpmovies.data.MoviesService
 import org.juansanz.kmpmovies.data.movies
 import org.juansanz.kmpmovies.ui.screens.home.DetailScreen
@@ -26,6 +30,7 @@ fun Navigation() {
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = "home") {
         composable("home") {
+            val apiKey = stringResource(Res.string.api_key)
             val client = remember {
                 HttpClient {
                     install(ContentNegotiation) {
@@ -33,11 +38,17 @@ fun Navigation() {
                             ignoreUnknownKeys = true
                         })
                     }
+                    install(DefaultRequest) {
+                        url {
+                            protocol = URLProtocol.HTTPS
+                            host = "api.themoviedb.org/3"
+                            parameters.append("api_key", apiKey)
+                        }
+                    }
                 }
             }
-            val apiKey = stringResource(Res.string.api_key)
             val homeViewModel = viewModel {
-                HomeViewModel(MoviesService(apiKey, client))
+                HomeViewModel(MoviesRepository(MoviesService(client)))
             }
 
             HomeScreen(
