@@ -66,6 +66,7 @@ kotlin {
         val desktopMain by getting
         
         androidMain.dependencies {
+            implementation(libs.koin.android)
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
             implementation(libs.ktor.client.okhttp)
@@ -88,6 +89,10 @@ kotlin {
             implementation(libs.androidx.lifecycle.viewmodel.compose)
             implementation(libs.androidx.room.runtime)
             implementation(libs.androidx.sqlite.bundled)
+            implementation(project.dependencies.platform(libs.koin.bom))
+            implementation(libs.koin.core)
+            implementation(libs.koin.compose)
+            implementation(libs.koin.compose.viewmodel)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)

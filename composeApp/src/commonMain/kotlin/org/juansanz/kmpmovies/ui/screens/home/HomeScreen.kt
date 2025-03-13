@@ -1,8 +1,8 @@
 package org.juansanz.kmpmovies.ui.screens.home
 
+
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.aspectRatio
@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -20,7 +19,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -31,14 +29,16 @@ import kmp_movies.composeapp.generated.resources.Res
 import kmp_movies.composeapp.generated.resources.app_name
 import org.jetbrains.compose.resources.stringResource
 import org.juansanz.kmpmovies.data.Movie
+import org.juansanz.kmpmovies.ui.commom.LoadingIndicator
 import org.juansanz.kmpmovies.ui.screens.Screen
+import org.koin.compose.viewmodel.koinViewModel
+import org.koin.core.annotation.KoinExperimentalAPI
 
-
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, KoinExperimentalAPI::class)
 @Composable
 fun HomeScreen(
     onMovieClick: (Movie) -> Unit,
-    vm: HomeViewModel,
+    vm: HomeViewModel = koinViewModel(),
 ) {
     Screen {
         val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
@@ -54,14 +54,10 @@ fun HomeScreen(
         ) { padding ->
             val state = vm.state
 
-            if (state.loading) {
-                Box(
-                    modifier = Modifier.fillMaxSize().padding(padding),
-                    contentAlignment = Alignment.Center
-                ) {
-                    CircularProgressIndicator()
-                }
-            }
+            LoadingIndicator(
+                enabled = state.loading,
+                modifier = Modifier.fillMaxSize().padding(padding)
+            )
 
             LazyVerticalGrid(
                 columns = GridCells.Adaptive(120.dp),

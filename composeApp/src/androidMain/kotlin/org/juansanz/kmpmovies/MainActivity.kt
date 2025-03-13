@@ -13,8 +13,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
-import org.juansanz.kmpmovies.data.database.getDatabaseBuilder
-import org.juansanz.kmpmovies.data.database.getRoomDatabase
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,8 +20,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             EnableTransparentStatusBar()
-            val db = getRoomDatabase(getDatabaseBuilder(ctx = LocalView.current.context))
-            App(db.moviesDao())
+            App()
         }
     }
 }
