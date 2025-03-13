@@ -1,5 +1,6 @@
 package org.juansanz.kmpmovies.ui.screens.home
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -24,7 +25,6 @@ import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import kmp_movies.composeapp.generated.resources.Res
 import kmp_movies.composeapp.generated.resources.app_name
-
 import org.jetbrains.compose.resources.stringResource
 import org.juansanz.kmpmovies.Movie
 import org.juansanz.kmpmovies.movies
@@ -32,7 +32,7 @@ import org.juansanz.kmpmovies.ui.screens.Screen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen() {
+fun HomeScreen(onMovieClick: (Movie) -> Unit) {
     Screen {
         val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
 
@@ -53,7 +53,7 @@ fun HomeScreen() {
                 modifier = Modifier.padding(padding)
             ) {
                 items(movies, key = { it.id }) {
-                    MovieItem(movie = it)
+                    MovieItem(movie = it) { onMovieClick(it) }
                 }
             }
         }
@@ -61,8 +61,10 @@ fun HomeScreen() {
 }
 
 @Composable
-fun MovieItem(movie: Movie) {
-    Column {
+fun MovieItem(movie: Movie, onClick: () -> Unit) {
+    Column(
+        modifier = Modifier.clickable(onClick = onClick)
+    ) {
         AsyncImage(
             model = movie.poster,
             contentDescription = movie.title,
