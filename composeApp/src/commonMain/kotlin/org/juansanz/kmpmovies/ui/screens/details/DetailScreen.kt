@@ -10,7 +10,10 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -34,6 +37,7 @@ import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import kmp_movies.composeapp.generated.resources.Res
 import kmp_movies.composeapp.generated.resources.back
+import kmp_movies.composeapp.generated.resources.favorite
 import org.jetbrains.compose.resources.stringResource
 import org.juansanz.kmpmovies.data.Movie
 import org.juansanz.kmpmovies.ui.commom.LoadingIndicator
@@ -54,6 +58,16 @@ fun DetailScreen(vm: DetailViewModel, onBack: () -> Unit) {
                     scrollBehavior = scrollBehavior,
                     onBack = onBack
                 )
+            },
+            floatingActionButton = {
+                state.movie?.let { movie ->
+                    FloatingActionButton(onClick = vm::onFavoriteClick) {
+                        Icon(
+                            imageVector = if (movie.isFavorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
+                            contentDescription = stringResource(Res.string.favorite)
+                        )
+                    }
+                }
             },
             modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
         ) { padding ->

@@ -1,6 +1,5 @@
 package org.juansanz.kmpmovies.data
 
-
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
@@ -17,4 +16,5 @@ data class Movie(
     val originalLanguage: String,
     val popularity: Double,
     val voteAverage: Double,
+    val isFavorite: Boolean,
 )

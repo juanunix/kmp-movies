@@ -17,7 +17,7 @@ class DetailViewModel(private val id: Int, private val repository: MoviesReposit
 
     data class UiState(
         val loading: Boolean = false,
-        val movie: Movie? = null,
+        val movie: Movie? = null
     )
 
     init {
@@ -25,6 +25,14 @@ class DetailViewModel(private val id: Int, private val repository: MoviesReposit
             state = UiState(loading = true)
             repository.fetchMovieById(id).collect {
                 it?.let { state = UiState(loading = false, movie = it) }
+            }
+        }
+    }
+
+    fun onFavoriteClick() {
+        state.movie?.let {
+            viewModelScope.launch {
+                repository.toggleFavorite(it)
             }
         }
     }
