@@ -42,12 +42,14 @@ import org.jetbrains.compose.resources.stringResource
 import org.juansanz.kmpmovies.data.Movie
 import org.juansanz.kmpmovies.ui.commom.LoadingIndicator
 import org.juansanz.kmpmovies.ui.screens.Screen
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailScreen(vm: DetailViewModel, onBack: () -> Unit) {
 
-    val state = vm.state
+    val state by vm.state.collectAsState()
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
 
     Screen {

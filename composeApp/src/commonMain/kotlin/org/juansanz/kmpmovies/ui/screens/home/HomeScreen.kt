@@ -39,6 +39,8 @@ import org.juansanz.kmpmovies.ui.commom.PermissionRequestEffect
 import org.juansanz.kmpmovies.ui.screens.Screen
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 
 @OptIn(ExperimentalMaterial3Api::class, KoinExperimentalAPI::class)
 @Composable
@@ -62,7 +64,7 @@ fun HomeScreen(
             },
             modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
         ) { padding ->
-            val state = vm.state
+            val state by vm.state.collectAsState()
 
             LoadingIndicator(
                 enabled = state.loading,
