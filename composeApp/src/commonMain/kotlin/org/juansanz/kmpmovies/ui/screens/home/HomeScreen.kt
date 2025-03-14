@@ -28,12 +28,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.unit.dp
 import coil3.compose.rememberAsyncImagePainter
+import dev.icerock.moko.permissions.Permission
 import kmp_movies.composeapp.generated.resources.Res
 import kmp_movies.composeapp.generated.resources.app_name
 import kmp_movies.composeapp.generated.resources.favorite
 import org.jetbrains.compose.resources.stringResource
 import org.juansanz.kmpmovies.data.Movie
 import org.juansanz.kmpmovies.ui.commom.LoadingIndicator
+import org.juansanz.kmpmovies.ui.commom.PermissionRequestEffect
 import org.juansanz.kmpmovies.ui.screens.Screen
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
@@ -44,6 +46,10 @@ fun HomeScreen(
     onMovieClick: (Movie) -> Unit,
     vm: HomeViewModel = koinViewModel(),
 ) {
+    PermissionRequestEffect(Permission.COARSE_LOCATION) {
+        vm.onUiReady()
+    }
+
     Screen {
         val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
 
