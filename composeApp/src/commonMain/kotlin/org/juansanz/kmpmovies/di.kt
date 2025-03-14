@@ -32,19 +32,8 @@ val appModule = module {
 }
 
 val dataModule = module {
-    /*get(named("apiKey"))*/
-    factory {
-        HttpClientFactory(get(named("apiKey"))).build()
-    }
-
-    factoryOf(::MoviesRepository)
-    factoryOf(::RegionRepository)
-    factoryOf(::MoviesService)
-}
-
-class HttpClientFactory(private val apiKey: String) {
-    fun build(): HttpClient {
-        return HttpClient() {
+    single {
+        HttpClient {
             install(ContentNegotiation) {
                 json(Json {
                     ignoreUnknownKeys = true
@@ -54,12 +43,15 @@ class HttpClientFactory(private val apiKey: String) {
                 url {
                     protocol = URLProtocol.HTTPS
                     host = "api.themoviedb.org"
-                    parameters.append("api_key", apiKey)
+                    parameters.append("api_key", get(named("apiKey")))
                 }
             }
-
         }
     }
+
+    factoryOf(::MoviesRepository)
+    factoryOf(::RegionRepository)
+    factoryOf(::MoviesService)
 }
 
 
