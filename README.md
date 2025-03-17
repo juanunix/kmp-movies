@@ -10,6 +10,18 @@ Welcome to the **Kotlin Multiplatform App**, a cutting-edge project designed to 
 
 ---
 
+
+## 📸 Screenshots
+
+## 📌 **IOS ANDROID**
+![KMP_MOVIES](https://github.com/user-attachments/assets/31a3c01c-f4cc-4994-8a5e-679dbb0bd439)
+
+## 📌 **DESKTOP**
+![KMP_MOVIES_1](https://github.com/user-attachments/assets/23f5b5bc-f50e-4ede-b4e9-f49e453d979b)
+
+![KMP_MOVIES_2](https://github.com/user-attachments/assets/fac2c5b4-df67-44ce-869d-dddcee688874)
+
+
 ## 📌 **Features**
 - 📱 **Cross-platform compatibility**: Single codebase for Android, iOS, and Desktop.
 - 🖥️ **Desktop**: Support for desktop environments ensures a seamless experience.
