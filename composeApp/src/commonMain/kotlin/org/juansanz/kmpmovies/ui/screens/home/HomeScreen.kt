@@ -23,6 +23,9 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -30,19 +33,15 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
-import dev.icerock.moko.permissions.Permission
 import kmp_movies.composeapp.generated.resources.Res
 import kmp_movies.composeapp.generated.resources.app_name
 import kmp_movies.composeapp.generated.resources.favorite
 import org.jetbrains.compose.resources.stringResource
 import org.juansanz.kmpmovies.data.Movie
 import org.juansanz.kmpmovies.ui.commom.LoadingIndicator
-import org.juansanz.kmpmovies.ui.commom.PermissionRequestEffect
 import org.juansanz.kmpmovies.ui.screens.Screen
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 
 @OptIn(ExperimentalMaterial3Api::class, KoinExperimentalAPI::class)
 @Composable
@@ -50,7 +49,10 @@ fun HomeScreen(
     onMovieClick: (Movie) -> Unit,
     vm: HomeViewModel = koinViewModel(),
 ) {
-    PermissionRequestEffect(Permission.COARSE_LOCATION) {
+    /*PermissionRequestEffect(Permission.COARSE_LOCATION) {
+
+    }*/
+    LaunchedEffect(Unit) {
         vm.onUiReady()
     }
 

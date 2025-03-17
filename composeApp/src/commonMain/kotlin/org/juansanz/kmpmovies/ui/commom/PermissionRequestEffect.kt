@@ -3,12 +3,13 @@ package org.juansanz.kmpmovies.ui.commom
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
-import dev.icerock.moko.permissions.Permission
+/*import dev.icerock.moko.permissions.Permission
 import dev.icerock.moko.permissions.PermissionsController
 import dev.icerock.moko.permissions.compose.BindEffect
 import dev.icerock.moko.permissions.compose.PermissionsControllerFactory
-import dev.icerock.moko.permissions.compose.rememberPermissionsControllerFactory
+import dev.icerock.moko.permissions.compose.rememberPermissionsControllerFactory*/
 
+/*
 @Composable
 fun PermissionRequestEffect(permission: Permission, onResult: (Boolean) -> Unit) {
     val factory: PermissionsControllerFactory = rememberPermissionsControllerFactory()
@@ -20,4 +21,4 @@ fun PermissionRequestEffect(permission: Permission, onResult: (Boolean) -> Unit)
         controller.providePermission(permission)
         onResult(controller.isPermissionGranted(permission))
     }
-}
+}*/
