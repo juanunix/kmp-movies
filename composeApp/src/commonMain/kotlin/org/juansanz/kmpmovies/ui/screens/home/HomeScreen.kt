@@ -1,15 +1,15 @@
 package org.juansanz.kmpmovies.ui.screens.home
 
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -25,9 +25,11 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
-import coil3.compose.rememberAsyncImagePainter
+import coil3.compose.AsyncImage
 import dev.icerock.moko.permissions.Permission
 import kmp_movies.composeapp.generated.resources.Res
 import kmp_movies.composeapp.generated.resources.app_name
@@ -92,7 +94,7 @@ fun MovieItem(movie: Movie, onClick: () -> Unit) {
         modifier = Modifier.clickable(onClick = onClick)
     ) {
         Box {
-            /*AsyncImage(
+            AsyncImage(
                 model = movie.poster,
                 contentDescription = movie.title,
                 contentScale = ContentScale.Crop,
@@ -100,12 +102,12 @@ fun MovieItem(movie: Movie, onClick: () -> Unit) {
                     .fillMaxWidth()
                     .aspectRatio(2 / 3f)
                     .clip(MaterialTheme.shapes.small)
-            )*/
-            Image(
+            )
+            /*Image(
                 painter = rememberAsyncImagePainter(movie.poster),
                 contentDescription = null,
                 modifier = Modifier.size(128.dp)
-            )
+            )*/
             if (movie.isFavorite) {
                 Icon(
                     imageVector = Icons.Default.Favorite,

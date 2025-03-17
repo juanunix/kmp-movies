@@ -81,10 +81,10 @@ kotlin {
             implementation(compose.components.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtime.compose)
-            implementation(libs.coil.compose)
             implementation(libs.ktor.client.contentnegotiation)
             implementation(libs.ktor.serialization.json)
-            implementation(libs.coil.network.ktor)
+            implementation(libs.coil.compose)
+            implementation(libs.coil.network.okhttp)
             implementation(libs.ktor.client.core)
             implementation(libs.androidx.navigation.compose)
             implementation(libs.androidx.lifecycle.viewmodel.compose)
@@ -115,7 +115,7 @@ kotlin {
 
 android {
     namespace = "org.juansanz.kmpmovies"
-    compileSdk = libs.versions.android.compileSdk.get().toInt()
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "org.juansanz.kmpmovies"
